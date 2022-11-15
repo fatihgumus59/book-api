@@ -5,12 +5,26 @@ const insert = (bookData)=>{
     return books.save();
 }
 
-const listAll = (bookData)=>{
-    const books = Books.find({}).select('-updatedAt').sort('-createdAt')
-    return books;
+const listAll = (where)=>{
+    return Books.find(where || {}).select('-updatedAt').sort('-createdAt')
+}
+
+const getById = (Id)=>{
+    return Books.findOne({_id: Id}).select('-updatedAt');  
+}
+
+const modify = (id,data)=>{
+    return Books.findByIdAndUpdate(id,data,{new:true}).select('-createdAt');
+}
+
+const remove = (id)=>{
+    return Books.findByIdAndRemove(id,{new:true}).select('-createdAt');
 }
 
 module.exports ={
     insert,
     listAll,
+    getById,
+    modify,
+    remove,
 }
