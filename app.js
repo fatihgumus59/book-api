@@ -1,6 +1,5 @@
 const express = require('express');
 const helmet = require("helmet");
-const methodOverride = require('method-override');
 const config = require('./config');
 const db = require('./database');
 
@@ -9,8 +8,6 @@ const {BooksRoute,UsersRoute} = require('./routes');
 config();
 db();
 const app = express();
-
-app.use(methodOverride('_method', { methods: ['GET', 'POST'] }));
 
 app.use(express.json()); 
 app.use(express.urlencoded({ extended: true }));
