@@ -4,7 +4,7 @@ const methodOverride = require('method-override');
 const config = require('./config');
 const db = require('./database');
 
-const {BooksRoute} = require('./routes');
+const {BooksRoute,UsersRoute} = require('./routes');
 
 config();
 db();
@@ -20,5 +20,7 @@ app.use(helmet());
 app.listen(process.env.APP_PORT, () => {
   console.log(`APP started port ${process.env.APP_PORT}`);
   app.use('/books', BooksRoute);
+  app.use('/users', UsersRoute);
+
   
 });

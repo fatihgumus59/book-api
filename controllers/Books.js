@@ -9,8 +9,8 @@ const create = async (req,res)=>{
         pageNumber : req.body?.pageNumber,
         price : req.body?.price,
         discount : req.body?.discount,
-        netPrice : req.body?.netPrice,
-        admin : req.body?.admin,
+        netPrice : parseFloat(Number( req.body?.price) - Number(req.body?.discount ? req.body?.discount : 0)),
+        admin : req.user?.id,
     }
 
     insert(data)
@@ -24,6 +24,16 @@ const create = async (req,res)=>{
 const list = async (req,res)=>{
 
     listAll()
+    .then((response)=>{
+        res.status(200).json({message: 'Sucess',result : response});
+    }).catch((error)=>{
+        res.status(500).json({message: 'Error',error});
+    })
+}
+
+const userList = async (req,res)=>{
+
+    listAll({admin : req.user?.id,})
     .then((response)=>{
         res.status(200).json({message: 'Sucess',result : response});
     }).catch((error)=>{
@@ -75,6 +85,7 @@ const removeBook = async (req,res)=>{
 module.exports=({
     create,
     list,
+    userList,
     getBook,
     update,
     removeBook,
